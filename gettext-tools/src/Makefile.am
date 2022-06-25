@@ -29,7 +29,7 @@ RM = rm -f
 bin_PROGRAMS = \
 msgcmp msgfmt msgmerge msgunfmt xgettext \
 msgattrib msgcat msgcomm msgconv msgen msgexec msgfilter msggrep msginit msguniq \
-recode-sr-latin
+recode-sr-latin kusarymash
 
 noinst_PROGRAMS = hostname urlget cldr-plurals
 
@@ -186,6 +186,10 @@ LIBGREP = ../libgrep/libgrep.a
 # Source dependencies.
 msgcmp_SOURCES = msgcmp.c
 msgcmp_SOURCES += msgl-fsearch.c
+kusarymash_SOURCES = kusarymash.c
+kusarymash_SOURCES += \
+  read-mo.c write-mo.c \
+  ../../gettext-runtime/intl/hash-string.c
 msgfmt_SOURCES = msgfmt.c
 msgfmt_SOURCES += \
   write-mo.c write-java.c write-csharp.c write-resources.c write-tcl.c \
@@ -355,6 +359,7 @@ msgmerge_CXXFLAGS = $(AM_CXXFLAGS) $(OPENMP_CFLAGS)
 # but libtool doesn't put -Wl,-framework options into .la files.
 # For msginit, it is also needed because of localename.c.
 msgcmp_LDADD = libgettextsrc.la @INTL_MACOSX_LIBS@ @MSGMERGE_LIBM@ $(WOE32_LDADD)
+kusarymash_LDADD = libgettextsrc.la @INTL_MACOSX_LIBS@ $(WOE32_LDADD)
 msgfmt_LDADD = libgettextsrc.la @INTL_MACOSX_LIBS@ $(WOE32_LDADD)
 msgmerge_LDADD = libgettextsrc.la @INTL_MACOSX_LIBS@ @MSGMERGE_LIBM@ $(WOE32_LDADD) $(OPENMP_CFLAGS)
 msgunfmt_LDADD = libgettextsrc.la @INTL_MACOSX_LIBS@ $(WOE32_LDADD)
@@ -372,6 +377,7 @@ msguniq_LDADD = libgettextsrc.la @INTL_MACOSX_LIBS@ $(WOE32_LDADD)
 
 # Specify when to relink the programs.
 msgcmp_DEPENDENCIES = libgettextsrc.la ../gnulib-lib/libgettextlib.la $(WOE32_LDADD)
+kusarymash_DEPENDENCIES = libgettextsrc.la ../gnulib-lib/libgettextlib.la $(WOE32_LDADD)
 msgfmt_DEPENDENCIES = libgettextsrc.la ../gnulib-lib/libgettextlib.la $(WOE32_LDADD)
 msgmerge_DEPENDENCIES = libgettextsrc.la ../gnulib-lib/libgettextlib.la $(WOE32_LDADD)
 msgunfmt_DEPENDENCIES = libgettextsrc.la ../gnulib-lib/libgettextlib.la $(WOE32_LDADD)
@@ -392,6 +398,7 @@ urlget_DEPENDENCIES = $(OTHERPROGDEPENDENCIES)
 
 # Specify installation directory, for --enable-relocatable.
 msgcmp_CPPFLAGS = $(AM_CPPFLAGS) -DINSTALLDIR=\"$(bindir)\"
+kusarymash_CPPFLAGS = $(AM_CPPFLAGS) -DINSTALLDIR=\"$(bindir)\"
 msgfmt_CPPFLAGS = $(AM_CPPFLAGS) -DINSTALLDIR=\"$(bindir)\"
 msgmerge_CPPFLAGS = $(AM_CPPFLAGS) -DINSTALLDIR=\"$(bindir)\"
 msgunfmt_CPPFLAGS = $(AM_CPPFLAGS) -DINSTALLDIR=\"$(bindir)\"
@@ -412,6 +419,7 @@ urlget_CPPFLAGS = $(AM_CPPFLAGS) -DINSTALLDIR=\"$(pkglibdir)\"
 cldr_plurals_CPPFLAGS = $(AM_CPPFLAGS) -DINSTALLDIR=\"$(pkglibdir)\"
 if RELOCATABLE_VIA_LD
 msgcmp_LDFLAGS = `$(RELOCATABLE_LDFLAGS) $(bindir)`
+kusarymash_LDFLAGS = `$(RELOCATABLE_LDFLAGS) $(bindir)`
 msgfmt_LDFLAGS = `$(RELOCATABLE_LDFLAGS) $(bindir)`
 msgmerge_LDFLAGS = `$(RELOCATABLE_LDFLAGS) $(bindir)`
 msgunfmt_LDFLAGS = `$(RELOCATABLE_LDFLAGS) $(bindir)`
